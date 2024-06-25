@@ -12,10 +12,12 @@ namespace PaparaDotnetBootcampApi.Controllers
     {
 
         private readonly CardRepository _repository;
+        private readonly CustomerRepository _customerRepository;
 
         public CardsController()
         {
             _repository = new CardRepository();
+            _customerRepository = new CustomerRepository();
         }
 
         [HttpGet]
@@ -28,10 +30,10 @@ namespace PaparaDotnetBootcampApi.Controllers
         public ActionResult<ResultCardDto> GetById(int id)
         {
             var Card = _repository.GetById(id);
+
             if (Card == null)
-            {
-                return NotFound();
-            }
+                throw new KeyNotFoundException("Card not found");
+
             return Ok(Card);
         }
 
@@ -39,9 +41,7 @@ namespace PaparaDotnetBootcampApi.Controllers
         public ActionResult<ResultCardDto> Create([FromBody] CreateCardDto createCardDto)
         {
             if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+                throw new ArgumentException("Invalid request parameters");
 
             Card card = new Card
             {
@@ -52,6 +52,9 @@ namespace PaparaDotnetBootcampApi.Controllers
                 CustomerId = createCardDto.CustomerId
             };
 
+            var customer = _customerRepository.GetById(card.CustomerId);
+            customer.Cards?.Add(card);
+
             _repository.Add(card);
             return CreatedAtAction(nameof(GetById), new { id = card.Id }, card);
         }
@@ -60,20 +63,15 @@ namespace PaparaDotnetBootcampApi.Controllers
         public IActionResult Update(int id, [FromBody] UpdateCardDto updateCardDto)
         {
             if (id != updateCardDto.Id)
-            {
-                return BadRequest();
-            }
+                throw new ArgumentException("ID mismatch");
 
             if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+                throw new ArgumentException("Invalid request parameters");
 
             var existingCard = _repository.GetById(id);
+
             if (existingCard == null)
-            {
-                return NotFound();
-            }
+                throw new KeyNotFoundException("Card not found");
 
             Card card = new Card
             {
@@ -93,10 +91,9 @@ namespace PaparaDotnetBootcampApi.Controllers
         public IActionResult Delete(int id)
         {
             var Card = _repository.GetById(id);
+
             if (Card == null)
-            {
-                return NotFound();
-            }
+                throw new KeyNotFoundException("Card not found");
 
             _repository.Delete(id);
             return NoContent();
@@ -112,6 +109,11 @@ namespace PaparaDotnetBootcampApi.Controllers
             {
                 Cards = Cards.Where(p => p.NameSurname.Contains(nameSurname, StringComparison.OrdinalIgnoreCase));
             }
+            else
+            {
+                throw new ArgumentException("Invalid request parameters");
+            }
+
             return Ok(Cards);
         }
     }

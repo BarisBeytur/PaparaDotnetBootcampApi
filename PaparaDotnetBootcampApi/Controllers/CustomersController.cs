@@ -27,10 +27,9 @@ namespace PaparaDotnetBootcampApi.Controllers
         public ActionResult<ResultCustomerDto> GetById(int id)
         {
             var Customer = _repository.GetById(id);
-            if (Customer == null)
-            {
-                return NotFound(new { status = 404, message = "Customer not found" });
-            }
+            if (Customer == null)       
+                throw new KeyNotFoundException("Customer not found");
+
             return Ok(Customer);
         }
 
@@ -38,9 +37,7 @@ namespace PaparaDotnetBootcampApi.Controllers
         public ActionResult<ResultCustomerDto> Create([FromBody] CreateCustomerDto createCustomerDto)
         {
             if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+                throw new ArgumentException("Invalid request parameters");
 
             Customer customer = new Customer
             {
@@ -57,20 +54,14 @@ namespace PaparaDotnetBootcampApi.Controllers
         public IActionResult Update(int id, [FromBody] UpdateCustomerDto updateCustomerDto)
         {
             if (id != updateCustomerDto.Id)
-            {
-                return BadRequest();
-            }
+                throw new ArgumentException("ID mismatch");
 
             if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+                throw new ArgumentException("Invalid request parameters");
 
             var existingCustomer = _repository.GetById(id);
             if (existingCustomer == null)
-            {
-                return NotFound(new { status = 404, message = "Customer not found" });
-            }
+                throw new KeyNotFoundException("Customer not found");
 
             Customer customer = new Customer
             {
@@ -89,9 +80,7 @@ namespace PaparaDotnetBootcampApi.Controllers
         {
             var Customer = _repository.GetById(id);
             if (Customer == null)
-            {
-                return NotFound(new { status = 404, message = "Customer not found" });
-            }
+                throw new KeyNotFoundException("Customer not found");
 
             _repository.Delete(id);
             return NoContent();
@@ -107,6 +96,11 @@ namespace PaparaDotnetBootcampApi.Controllers
             {
                 Customers = Customers.Where(p => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
             }
+            else
+            {
+                throw new ArgumentException("Invalid request parameters");
+            }
+
             return Ok(Customers);
         }
 
