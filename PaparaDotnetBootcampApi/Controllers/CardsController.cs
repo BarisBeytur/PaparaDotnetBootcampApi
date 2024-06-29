@@ -7,6 +7,7 @@ using PaparaDotnetBootcampApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace PaparaDotnetBootcampApi.Controllers
 {
@@ -125,6 +126,21 @@ namespace PaparaDotnetBootcampApi.Controllers
             }
 
             return Ok(ApiResponse<IEnumerable<Card>>.Success(cards, StatusCodes.Status200OK, "Filtered cards retrieved successfully"));
+        }
+
+
+        [HttpPatch("{id}")]
+        public ActionResult<ApiResponse<Card>> Patch(int id, [FromBody] JsonPatchDocument<Card> patch)
+        {
+            var existingCard = _cardRepository.GetById(id);
+            if (existingCard == null)
+            {
+                return NotFound(ApiResponse<Customer>.Failure("Card not found", StatusCodes.Status404NotFound));
+            }
+
+            patch.ApplyTo(existingCard);
+
+            return Ok(ApiResponse<Card>.Success(existingCard, StatusCodes.Status200OK, "Card updated successfully"));
         }
     }
 }
