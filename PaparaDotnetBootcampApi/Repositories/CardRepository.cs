@@ -18,7 +18,10 @@ namespace PaparaDotnetBootcampApi.Repositories
 
         public void Add(Card card)
         {
+            var customer = DummyData.Customers.FirstOrDefault(p => p.Id == card.CustomerId); 
+
             card.Id = DummyData.Cards.Count + 1;
+            card.NameSurname = $"{customer?.Name} {customer?.Surname}";
             DummyData.Cards.Add(card);
         }
 
