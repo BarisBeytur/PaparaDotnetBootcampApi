@@ -118,7 +118,7 @@ namespace PaparaDotnetBootcampApi.Controllers
 
             if (!string.IsNullOrEmpty(nameSurname))
             {
-                cards = cards.Where(p => p.NameSurname.Contains(nameSurname, StringComparison.OrdinalIgnoreCase));
+                cards = cards.Where(p => p.NameSurname.Contains(nameSurname, StringComparison.OrdinalIgnoreCase)).OrderBy(x => x.ExpiryDate); // ExpiryDate'e göre sıralama ve Name-Surname'e göre listeleme yapılmaktadır.
             }
             else
             {

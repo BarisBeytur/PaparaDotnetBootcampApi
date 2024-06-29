@@ -111,7 +111,7 @@ namespace PaparaDotnetBootcampApi.Controllers
 
             if (!string.IsNullOrEmpty(name))
             {
-                customers = customers.Where(p => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
+                customers = customers.Where(p => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase)).OrderBy(x => x.TCKN).ToList(); // TCKN'ye göre sıralama ve Name'e göre listeleme yapılmaktadır.
                 if (customers.Count == 0)
                 {
                     return NotFound(ApiResponse<IEnumerable<Customer>>.Failure("Customer not found", StatusCodes.Status404NotFound));
