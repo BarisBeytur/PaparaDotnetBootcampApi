@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace PaparaDotnetBootcampApi.Data
+namespace PaparaDotnetBootcampApi.Repositories
 {
     public static class DummyData
     {

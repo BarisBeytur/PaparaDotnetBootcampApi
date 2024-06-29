@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PaparaDotnetBootcampApi.Data;
+using PaparaDotnetBootcampApi.Repositories;
 using PaparaDotnetBootcampApi.Dtos.Customer;
 using PaparaDotnetBootcampApi.Dtos.Result;
 using PaparaDotnetBootcampApi.Models;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace PaparaDotnetBootcampApi.Controllers
 {
@@ -38,11 +39,11 @@ namespace PaparaDotnetBootcampApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ApiResponse<ResultCustomerDto>> Create([FromBody] CreateCustomerDto createCustomerDto)
+        public ActionResult<ApiResponse<Customer>> Create([FromBody] CreateCustomerDto createCustomerDto)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ApiResponse<ResultCustomerDto>.Failure("Invalid request parameters", StatusCodes.Status400BadRequest));
+                return BadRequest(ApiResponse<Customer>.Failure("Invalid request parameters", StatusCodes.Status400BadRequest));
             }
 
             Customer customer = new Customer
@@ -54,15 +55,7 @@ namespace PaparaDotnetBootcampApi.Controllers
 
             _repository.Add(customer);
 
-            ResultCustomerDto resultDto = new ResultCustomerDto
-            {
-                Id = customer.Id,
-                Name = customer.Name,
-                Surname = customer.Surname,
-                TCKN = customer.TCKN
-            };
-
-            return CreatedAtAction(nameof(GetById), new { id = customer.Id }, ApiResponse<ResultCustomerDto>.Success(resultDto, StatusCodes.Status201Created, "Customer created successfully"));
+            return CreatedAtAction(nameof(GetById), new { id = customer.Id }, ApiResponse<Customer>.Success(customer, StatusCodes.Status201Created, "Customer created successfully"));
         }
 
         [HttpPut("{id}")]
@@ -131,6 +124,21 @@ namespace PaparaDotnetBootcampApi.Controllers
 
             return Ok(ApiResponse<IEnumerable<Customer>>.Success(customers, StatusCodes.Status200OK, "Customers retrieved successfully"));
         }
+
+        [HttpPatch("{id}")]
+        public ActionResult<ApiResponse<Customer>> Patch(int id, [FromBody] JsonPatchDocument<Customer> patch)
+        {
+            var existingCustomer = _repository.GetById(id);
+            if (existingCustomer == null)
+            {
+                return NotFound(ApiResponse<Customer>.Failure("Customer not found", StatusCodes.Status404NotFound));
+            }
+
+            patch.ApplyTo(existingCustomer);
+
+            return Ok(ApiResponse<Customer>.Success(existingCustomer, StatusCodes.Status200OK, "Customer updated successfully"));
+        }
+
 
     }
 }

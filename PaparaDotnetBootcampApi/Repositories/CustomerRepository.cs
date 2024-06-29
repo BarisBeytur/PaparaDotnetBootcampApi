@@ -1,6 +1,6 @@
 ﻿using PaparaDotnetBootcampApi.Models;
 
-namespace PaparaDotnetBootcampApi.Data
+namespace PaparaDotnetBootcampApi.Repositories
 {
     public class CustomerRepository
     {

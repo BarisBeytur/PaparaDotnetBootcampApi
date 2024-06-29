@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PaparaDotnetBootcampApi.Data;
+using PaparaDotnetBootcampApi.Repositories;
 using PaparaDotnetBootcampApi.Dtos.Card;
 using PaparaDotnetBootcampApi.Dtos.Result;
 using PaparaDotnetBootcampApi.Models;
@@ -37,7 +37,7 @@ namespace PaparaDotnetBootcampApi.Controllers
             var card = _cardRepository.GetById(id);
 
             if (card == null)
-                return NotFound(ApiResponse<ResultCardDto>.Failure("Card not found", StatusCodes.Status404NotFound));
+                return NotFound(ApiResponse<Card>.Failure("Card not found", StatusCodes.Status404NotFound));
 
             return Ok(ApiResponse<Card>.Success(card, StatusCodes.Status200OK, "Card retrieved successfully"));
         }
@@ -46,7 +46,7 @@ namespace PaparaDotnetBootcampApi.Controllers
         public ActionResult<ApiResponse<Card>> Create([FromBody] CreateCardDto createCardDto)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ApiResponse<ResultCardDto>.Failure("Invalid request parameters", StatusCodes.Status400BadRequest));
+                return BadRequest(ApiResponse<Card>.Failure("Invalid request parameters", StatusCodes.Status400BadRequest));
 
             Card card = new Card
             {
@@ -59,7 +59,7 @@ namespace PaparaDotnetBootcampApi.Controllers
 
             var customer = _customerRepository.GetById(card.CustomerId);
             if (customer == null)
-                return NotFound(ApiResponse<ResultCardDto>.Failure("Customer not found", StatusCodes.Status404NotFound));
+                return NotFound(ApiResponse<Card>.Failure("Customer not found", StatusCodes.Status404NotFound));
 
             customer.Cards?.Add(card);
 
