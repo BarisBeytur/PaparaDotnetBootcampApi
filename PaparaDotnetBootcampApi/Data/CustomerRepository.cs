@@ -4,22 +4,21 @@ namespace PaparaDotnetBootcampApi.Data
 {
     public class CustomerRepository
     {
-        private static List<Customer> _customers = new List<Customer>();
 
-        public IEnumerable<Customer> GetAll()
+        public List<Customer> GetAll()
         {
-            return _customers;
+            return DummyData.Customers.ToList();
         }
 
         public Customer GetById(int id)
         {
-            return _customers.FirstOrDefault(p => p.Id == id);
+            return DummyData.Customers.FirstOrDefault(p => p.Id == id);
         }
 
         public void Add(Customer Customer)
         {
-            Customer.Id = _customers.Count + 1;
-            _customers.Add(Customer);
+            Customer.Id = DummyData.Customers.Count + 1;
+            DummyData.Customers.Add(Customer);
         }
 
         public void Update(Customer Customer)
@@ -39,7 +38,7 @@ namespace PaparaDotnetBootcampApi.Data
             var Customer = GetById(id);
             if (Customer != null)
             {
-                _customers.Remove(Customer);
+                DummyData.Customers.Remove(Customer);
             }
         }
     }

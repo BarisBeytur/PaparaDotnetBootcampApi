@@ -2,46 +2,51 @@
 using Microsoft.AspNetCore.Mvc;
 using PaparaDotnetBootcampApi.Data;
 using PaparaDotnetBootcampApi.Dtos.Card;
+using PaparaDotnetBootcampApi.Dtos.Result;
 using PaparaDotnetBootcampApi.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PaparaDotnetBootcampApi.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class CardsController : ControllerBase
     {
-
-        private readonly CardRepository _repository;
+        private readonly CardRepository _cardRepository;
         private readonly CustomerRepository _customerRepository;
 
         public CardsController()
         {
-            _repository = new CardRepository();
+            _cardRepository = new CardRepository();
             _customerRepository = new CustomerRepository();
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ResultCardDto>> GetAll()
+        public ActionResult<ApiResponse<IEnumerable<Card>>> GetAll()
         {
-            return Ok(_repository.GetAll());
+            var cards = _cardRepository.GetAll();
+            return Ok(ApiResponse<IEnumerable<Card>>.Success(cards, StatusCodes.Status200OK, "Cards listed successfully"));
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ResultCardDto> GetById(int id)
+        public ActionResult<ApiResponse<Card>> GetById(int id)
         {
-            var Card = _repository.GetById(id);
+            var card = _cardRepository.GetById(id);
 
-            if (Card == null)
-                throw new KeyNotFoundException("Card not found");
+            if (card == null)
+                return NotFound(ApiResponse<ResultCardDto>.Failure("Card not found", StatusCodes.Status404NotFound));
 
-            return Ok(Card);
+            return Ok(ApiResponse<Card>.Success(card, StatusCodes.Status200OK, "Card retrieved successfully"));
         }
 
         [HttpPost]
-        public ActionResult<ResultCardDto> Create([FromBody] CreateCardDto createCardDto)
+        public ActionResult<ApiResponse<Card>> Create([FromBody] CreateCardDto createCardDto)
         {
             if (!ModelState.IsValid)
-                throw new ArgumentException("Invalid request parameters");
+                return BadRequest(ApiResponse<ResultCardDto>.Failure("Invalid request parameters", StatusCodes.Status400BadRequest));
 
             Card card = new Card
             {
@@ -53,25 +58,29 @@ namespace PaparaDotnetBootcampApi.Controllers
             };
 
             var customer = _customerRepository.GetById(card.CustomerId);
+            if (customer == null)
+                return NotFound(ApiResponse<ResultCardDto>.Failure("Customer not found", StatusCodes.Status404NotFound));
+
             customer.Cards?.Add(card);
 
-            _repository.Add(card);
-            return CreatedAtAction(nameof(GetById), new { id = card.Id }, card);
+            _cardRepository.Add(card);
+
+            return CreatedAtAction(nameof(GetById), new { id = card.Id }, ApiResponse<Card>.Success(card, StatusCodes.Status201Created, "Card created successfully"));
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] UpdateCardDto updateCardDto)
+        public ActionResult<ApiResponse<UpdateCardDto>> Update(int id, [FromBody] UpdateCardDto updateCardDto)
         {
             if (id != updateCardDto.Id)
-                throw new ArgumentException("ID mismatch");
+                return BadRequest(ApiResponse<UpdateCardDto>.Failure("ID mismatch", StatusCodes.Status400BadRequest));
 
             if (!ModelState.IsValid)
-                throw new ArgumentException("Invalid request parameters");
+                return BadRequest(ApiResponse<UpdateCardDto>.Failure("Invalid request parameters", StatusCodes.Status400BadRequest));
 
-            var existingCard = _repository.GetById(id);
+            var existingCard = _cardRepository.GetById(id);
 
             if (existingCard == null)
-                throw new KeyNotFoundException("Card not found");
+                return NotFound(ApiResponse<UpdateCardDto>.Failure("Card not found", StatusCodes.Status404NotFound));
 
             Card card = new Card
             {
@@ -83,38 +92,39 @@ namespace PaparaDotnetBootcampApi.Controllers
                 CustomerId = updateCardDto.CustomerId
             };
 
-            _repository.Update(card);
+            _cardRepository.Update(card);
+
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public ActionResult<ApiResponse<object>> Delete(int id)
         {
-            var Card = _repository.GetById(id);
+            var card = _cardRepository.GetById(id);
 
-            if (Card == null)
-                throw new KeyNotFoundException("Card not found");
+            if (card == null)
+                return NotFound(ApiResponse<object>.Failure("Card not found", StatusCodes.Status404NotFound));
 
-            _repository.Delete(id);
+            _cardRepository.Delete(id);
+
             return NoContent();
         }
 
-
-
         [HttpGet("list")]
-        public ActionResult<IEnumerable<Card>> List([FromQuery] string nameSurname)
+        public ActionResult<ApiResponse<IEnumerable<Card>>> List([FromQuery] string nameSurname)
         {
-            var Cards = _repository.GetAll();
+            var cards = _cardRepository.GetAll();
+
             if (!string.IsNullOrEmpty(nameSurname))
             {
-                Cards = Cards.Where(p => p.NameSurname.Contains(nameSurname, StringComparison.OrdinalIgnoreCase));
+                cards = cards.Where(p => p.NameSurname.Contains(nameSurname, StringComparison.OrdinalIgnoreCase));
             }
             else
             {
-                throw new ArgumentException("Invalid request parameters");
+                return BadRequest(ApiResponse<IEnumerable<Card>>.Failure("Invalid request parameters", StatusCodes.Status400BadRequest));
             }
 
-            return Ok(Cards);
+            return Ok(ApiResponse<IEnumerable<Card>>.Success(cards, StatusCodes.Status200OK, "Filtered cards retrieved successfully"));
         }
     }
 }
