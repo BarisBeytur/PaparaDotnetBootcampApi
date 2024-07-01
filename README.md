@@ -22,7 +22,7 @@
  - Model binding işlemleri hem body den hemde query den yapılacak şekilde örneklendirilmelidir. 
 >  Model binding işlemleri hem body den hemde query den yapılacak şekilde yapılandırılmıştır.
  
-** Bonus: ** 
+**Bonus:**
 - Standart crud işlemlerine ek olarak, listeleme ve sıralama işlevleride eklenmelidir. Örn: /api/products/list?name=abc 
 
 >Projede listeleme işlemi /list? şeklinde bir query ile yapılmaktadır. Controllerda bulunan List metodu bu amaçla kullanılmakta ve controller içerisinde sıralama işlevi de kullanılmaktadır.
