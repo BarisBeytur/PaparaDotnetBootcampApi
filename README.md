@@ -2,8 +2,8 @@
 
 
 ## 1. HAFTA İÇERİĞİ
-**Restful Api Geliştirilmesi
-**
+**Restful Api Geliştirilmesi**
+
  - REST standartlarna uygun olmalıdır. 
 >  Proje REST standartlarına uygun geliştirilmiştir.
  
