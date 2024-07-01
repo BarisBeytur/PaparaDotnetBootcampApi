@@ -95,7 +95,7 @@ namespace PaparaDotnetBootcampApi.Controllers
 
             _cardRepository.Update(card);
 
-            return NoContent();
+            return Ok(ApiResponse<IEnumerable<Card>>.Success(StatusCodes.Status204NoContent, "Card updated successfuly"));
         }
 
         [HttpDelete("{id}")]
@@ -108,7 +108,7 @@ namespace PaparaDotnetBootcampApi.Controllers
 
             _cardRepository.Delete(id);
 
-            return NoContent();
+            return Ok(ApiResponse<IEnumerable<Card>>.Success(StatusCodes.Status204NoContent, "Card deleted successfuly"));
         }
 
         [HttpGet("list")]

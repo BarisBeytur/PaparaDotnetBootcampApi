@@ -35,10 +35,16 @@ namespace PaparaDotnetBootcampApi.Repositories
 
         public void Delete(int id)
         {
-            var Customer = GetById(id);
-            if (Customer != null)
+            var customer = GetById(id);
+            var cards = DummyData.Cards.Where(p => p.CustomerId == id).ToList();
+            if (customer != null)
             {
-                DummyData.Customers.Remove(Customer);
+                DummyData.Customers.Remove(customer);
+                foreach(var item in cards)
+                {
+                    DummyData.Cards.Remove(item);
+
+                }
             }
         }
     }

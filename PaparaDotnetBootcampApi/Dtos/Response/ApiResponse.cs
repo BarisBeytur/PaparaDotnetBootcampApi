@@ -18,10 +18,21 @@ namespace PaparaDotnetBootcampApi.Dtos.Result
             IsSuccessFul = isSuccessFul;
             Message = message;
         }
+        public ApiResponse(int statusCode, bool isSuccessFul, string message = null)
+        {
+            StatusCode = statusCode;
+            IsSuccessFul = isSuccessFul;
+            Message = message;
+        }
 
         public static ApiResponse<T> Success(T data, int statusCode = 200, string message = "Request successful.")
         {
             return new ApiResponse<T>(data, statusCode, true, message);
+        }
+
+        public static ApiResponse<T> Success(int statusCode = 200, string message = "Request successful.")
+        {
+            return new ApiResponse<T>(statusCode, true, message);
         }
 
         public static ApiResponse<T> Failure(string message, int statusCode = 400)
