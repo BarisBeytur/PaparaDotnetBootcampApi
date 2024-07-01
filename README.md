@@ -4,7 +4,7 @@
 ## 1. HAFTA İÇERİĞİ
 **Restful Api Geliştirilmesi**
 
- - REST standartlarna uygun olmalıdır. 
+ - REST standartlarına uygun olmalıdır. 
 >  Proje REST standartlarına uygun geliştirilmiştir.
  
  - GET,POST,PUT,DELETE,PATCH methodları kullanılmalıdır. 
