@@ -7,6 +7,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Models\**" />
+	  <Content Remove="Models\**" />
+	  <EmbeddedResource Remove="Models\**" />
+	  <None Remove="Models\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="8.0.6" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.6" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
@@ -21,10 +28,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\PaparaDotnetBootcampApi.Business\PaparaDotnetBootcampApi.Business.csproj" />
 		<ProjectReference Include="..\PaparaDotnetBootcampApi.DataAccess\PaparaDotnetBootcampApi.DataAccess.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Models\" />
 	</ItemGroup>
 
 </Project>
