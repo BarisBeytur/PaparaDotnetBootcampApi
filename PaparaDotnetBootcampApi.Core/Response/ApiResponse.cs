@@ -1,15 +1,48 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace PaparaDotnetBootcampApi.Dtos.Result
+﻿
+namespace PaparaDotnetBootcampApi.Core.Response
 {
-    public class ApiResponse<T>
+
+
+    public partial class ApiResponse
+    {
+        public bool IsSuccessFul { get; set; }
+        public string Message { get; set; }
+        public int StatusCode { get; set; }
+
+        public ApiResponse(string message = null)
+        {
+            if (string.IsNullOrEmpty(message))
+            {
+                IsSuccessFul = true;
+            }
+            else
+            {
+                IsSuccessFul = false;
+                Message = message;
+            }
+        }
+        public ApiResponse(int statusCode, bool isSuccessFul, string message)
+        {
+            IsSuccessFul = isSuccessFul;
+            Message = message;
+            StatusCode = statusCode;
+        }
+
+
+        public static ApiResponse Failure(string message, int statusCode = 400)
+        {
+            return new ApiResponse(statusCode, false, message);
+        }
+
+    }
+
+
+    public partial class ApiResponse<T>
     {
         public int StatusCode { get; set; }
         public bool IsSuccessFul { get; set; }
         public string Message { get; set; }
         public T Data { get; set; }
-
-        public ApiResponse() { }
 
         public ApiResponse(T data, int statusCode, bool isSuccessFul, string message = null)
         {

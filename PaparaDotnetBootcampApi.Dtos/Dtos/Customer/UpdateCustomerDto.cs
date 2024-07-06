@@ -1,5 +1,4 @@
-﻿using PaparaDotnetBootcampApi.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PaparaDotnetBootcampApi.Dtos.Customer
 {

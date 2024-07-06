@@ -1,21 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using PaparaDotnetBootcampApi.Core.Entity;
 using System.ComponentModel.DataAnnotations;
 
-namespace PaparaDotnetBootcampApi.Models
+namespace PaparaDotnetBootcampApi.Entities
 {
-    public class Customer : IEntity
+    public class Customer : BaseEntity
     {
         public int Id { get; set; }
-
         [Required]
         public string Name { get; set; }
-
         [Required]
         public string Surname { get; set; }
-
         [Required]
         public string TCKN { get; set; }
 
-        public virtual ICollection<Card>? Cards { get; set; } = new List<Card>();
+
+        public virtual ICollection<Card>? Cards { get; set; }
     }
 }

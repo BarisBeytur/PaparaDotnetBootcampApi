@@ -1,25 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PaparaDotnetBootcampApi.Core.Entity;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
-namespace PaparaDotnetBootcampApi.Models
+namespace PaparaDotnetBootcampApi.Entities
 {
-    public class Card : IEntity
+    public class Card : BaseEntity
     {
-        public int Id { get; set; }
-
-        [Required]
         public string CardNumber { get; set; }
-
-        [Required]
         public string NameSurname { get; set; }
-
-        [Required]
         public string ExpiryDate { get; set; }
-
-        [Required]
         public string Cvv { get; set; }
 
         public int CustomerId { get; set; }
-
+        [JsonIgnore]
         public virtual Customer Customer { get; set; }
     }
 }
