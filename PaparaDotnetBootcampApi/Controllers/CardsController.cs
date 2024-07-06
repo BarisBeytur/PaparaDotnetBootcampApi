@@ -8,17 +8,17 @@ using PaparaDotnetBootcampApi.Entities;
 namespace PaparaDotnetBootcampApi.Controllers
 {
     /// <summary>
-    /// Bu controller sınıfı, kartlar ile ilgili işlemleri gerçekleştirmek için kullanılır.
+    /// Bu controller sınıfı, kart işlemlerini gerçekleştirmek için kullanılır.
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class CardsController : ControllerBase
     {
-        private readonly ICardService _cardService;
+        private readonly ICardService _cardService; // ICardService tipinde bir _cardService referansı oluşturulur.
 
         public CardsController(ICardService cardService)
         {
-            _cardService = cardService;
+            _cardService = cardService; // _cardService referansı, parametre olarak gelen cardService nesnesine eşitlenir. Dependency Injection yapılmış olur.
         }
 
 

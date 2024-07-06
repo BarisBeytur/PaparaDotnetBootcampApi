@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
 
-namespace PaparaDotnetBootcampApi.Middlewares
+namespace PaparaDotnetBootcampApi.Extensions.Middlewares
 {
 
     public class ExceptionHandlerMiddleware
@@ -29,10 +29,13 @@ namespace PaparaDotnetBootcampApi.Middlewares
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             var code = HttpStatusCode.InternalServerError;
-            if (exception is ArgumentException) code = HttpStatusCode.BadRequest;
-            else if (exception is KeyNotFoundException) code = HttpStatusCode.NotFound;
 
-            var result = JsonConvert.SerializeObject(new { status = (int)code, message = exception.Message });
+            if (exception is ArgumentException)
+                code = HttpStatusCode.BadRequest;
+            else if (exception is KeyNotFoundException)
+                code = HttpStatusCode.NotFound;
+
+            var result = JsonConvert.SerializeObject(new { status = (int)code, message = exception.Message});
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
 

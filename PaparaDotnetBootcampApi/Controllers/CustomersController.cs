@@ -15,11 +15,11 @@ namespace PaparaDotnetBootcampApi.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        private readonly ICustomerService _customerService;
+        private readonly ICustomerService _customerService; // ICustomerService tipinde bir _customerService referansı oluşturulur.
 
         public CustomersController(ICustomerService customerService)
         {
-            _customerService = customerService;
+            _customerService = customerService; // _customerService referansı, parametre olarak gelen customerService nesnesine eşitlenir. Dependency Injection yapılmış olur.
         }
 
         /// <summary>

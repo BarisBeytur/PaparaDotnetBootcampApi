@@ -4,42 +4,42 @@ using PaparaDotnetBootcampApi.Business.Services.Concrete;
 using PaparaDotnetBootcampApi.DataAccess.Context;
 using PaparaDotnetBootcampApi.DataAccess.Repositories.GenericRepository;
 using PaparaDotnetBootcampApi.DataAccess.UnitOfWork;
-using PaparaDotnetBootcampApi.Middlewares;
+using PaparaDotnetBootcampApi.Extensions.Middlewares;
+using PaparaDotnetBootcampApi.Extensions.ServiceCollectionExtension;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore; // Opsiyonel, null deðerleri ignore etmek için
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; // For ignore loop reference.
+    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore; // For ignore null values.
 });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDIServices(); // Extension method for adding services to the container.
 
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-builder.Services.AddScoped<ICustomerService, CustomerService>();
-builder.Services.AddScoped<ICardService, CardService>();
-
-
+// Add DbContext
 builder.Services.AddDbContext<PatikaCohortContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); // Using SQL server
 });
+
+
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Swagger implementation
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<LoggingMiddleware>(); // Custom logging middleware
 
 app.UseHttpsRedirection();
 
@@ -47,6 +47,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseMiddleware<ExceptionHandlerMiddleware>();
+app.UseMiddleware<ExceptionHandlerMiddleware>(); // Custom exception handler middleware
 
 app.Run();
