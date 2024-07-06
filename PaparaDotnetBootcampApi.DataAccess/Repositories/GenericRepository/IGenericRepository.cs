@@ -20,6 +20,7 @@ namespace PaparaDotnetBootcampApi.DataAccess.Repositories.GenericRepository
         public void Update(T entity);
         public void Delete(int id);
         IEnumerable<T> GetByFilter(Expression<Func<T, bool>> filter);
+        T GetSingleByFilter(Expression<Func<T, bool>> filter);
 
     }
 }

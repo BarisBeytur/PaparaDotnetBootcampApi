@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PaparaDotnetBootcampApi.DataAccess.Context;
 
@@ -10,9 +11,11 @@ using PaparaDotnetBootcampApi.DataAccess.Context;
 namespace PaparaDotnetBootcampApi.DataAccess.Migrations
 {
     [DbContext(typeof(PatikaCohortContext))]
-    partial class PatikaCohortContextModelSnapshot : ModelSnapshot
+    [Migration("20240706192501_mig-init-auth")]
+    partial class miginitauth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

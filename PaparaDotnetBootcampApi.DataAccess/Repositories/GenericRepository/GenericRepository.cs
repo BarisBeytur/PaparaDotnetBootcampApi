@@ -72,6 +72,11 @@ namespace PaparaDotnetBootcampApi.DataAccess.Repositories.GenericRepository
             return _context.Set<T>().Find(id);
         }
 
+        public T GetSingleByFilter(Expression<Func<T, bool>> filter)
+        {
+            return _context.Set<T>().FirstOrDefault(filter);
+        }
+
         /// <summary>
         /// veritabanındaki belirli bir kaydı günceller.
         /// </summary>

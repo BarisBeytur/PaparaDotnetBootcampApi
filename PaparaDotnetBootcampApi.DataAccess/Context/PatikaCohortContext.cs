@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PaparaDotnetBootcampApi.DataAccess.Configuration;
 using PaparaDotnetBootcampApi.Entities;
+using PaparaDotnetBootcampApi.Entities.Entities;
 
 namespace PaparaDotnetBootcampApi.DataAccess.Context
 {
@@ -17,6 +18,7 @@ namespace PaparaDotnetBootcampApi.DataAccess.Context
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Card> Cards { get; set; }
+        public DbSet<User> Users { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

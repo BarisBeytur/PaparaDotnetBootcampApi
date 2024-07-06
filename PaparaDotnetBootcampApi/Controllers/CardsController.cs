@@ -4,6 +4,7 @@ using PaparaDotnetBootcampApi.Business.Services.Abstract;
 using PaparaDotnetBootcampApi.Core.Response;
 using PaparaDotnetBootcampApi.Dtos.Card;
 using PaparaDotnetBootcampApi.Entities;
+using PaparaDotnetBootcampApi.Extensions.Attributes;
 
 namespace PaparaDotnetBootcampApi.Controllers
 {
@@ -65,7 +66,8 @@ namespace PaparaDotnetBootcampApi.Controllers
         /// <param name="createCardDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<ApiResponse<Card>> Create([FromBody] CreateCardDto createCardDto)
+        [CustomAuth]
+        public ActionResult<ApiResponse<Card>> Create([FromHeader] string username, [FromHeader] string password, [FromBody] CreateCardDto createCardDto)
         {
             if (!ModelState.IsValid)
             {
@@ -90,7 +92,8 @@ namespace PaparaDotnetBootcampApi.Controllers
         /// <param name="updateCardDto"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public ActionResult<ApiResponse<Card>> Update(int id, [FromBody] UpdateCardDto updateCardDto)
+        [CustomAuth]
+        public ActionResult<ApiResponse<Card>> Update([FromHeader] string username, [FromHeader] string password, int id, [FromBody] UpdateCardDto updateCardDto)
         {
             if (id != updateCardDto.Id)
             {
@@ -119,7 +122,8 @@ namespace PaparaDotnetBootcampApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public ActionResult<ApiResponse<object>> Delete(int id)
+        [CustomAuth]
+        public ActionResult<ApiResponse<object>> Delete([FromHeader] string username, [FromHeader] string password, int id)
         {
             var response = _cardService.DeleteCard(id);
 
@@ -158,7 +162,8 @@ namespace PaparaDotnetBootcampApi.Controllers
         /// <param name="patch"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public ActionResult<ApiResponse<Card>> Patch(int id, [FromBody] JsonPatchDocument<Card> patch)
+        [CustomAuth]
+        public ActionResult<ApiResponse<Card>> Patch([FromHeader] string username, [FromHeader] string password, int id, [FromBody] JsonPatchDocument<Card> patch)
         {
             var existingCard = _cardService.GetCardById(id);
 

@@ -1,5 +1,7 @@
 ﻿using PaparaDotnetBootcampApi.DataAccess.Repositories.GenericRepository;
 using PaparaDotnetBootcampApi.Entities;
+using PaparaDotnetBootcampApi.Entities.Entities;
+using PaparaDotnetBootcampApi.DataAccess.Repositories.UserRepository;
 
 namespace PaparaDotnetBootcampApi.DataAccess.UnitOfWork
 {
@@ -10,6 +12,7 @@ namespace PaparaDotnetBootcampApi.DataAccess.UnitOfWork
     {
         IGenericRepository<Customer> Customers { get; }
         IGenericRepository<Card> Cards { get; }
+        IUserRepository Users { get; }
         int Complete(); 
     }
 }

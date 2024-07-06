@@ -32,12 +32,16 @@ builder.Services.AddDbContext<PatikaCohortContext>(options =>
 
 var app = builder.Build();
 
+
+
 // Swagger implementation
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<AuthMiddleware>(); // Custom Auth middleware
 
 app.UseMiddleware<LoggingMiddleware>(); // Custom logging middleware
 

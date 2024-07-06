@@ -5,6 +5,7 @@ using PaparaDotnetBootcampApi.Business.Services.Abstract;
 using PaparaDotnetBootcampApi.Core.Response;
 using PaparaDotnetBootcampApi.Dtos.Customer;
 using PaparaDotnetBootcampApi.Entities;
+using PaparaDotnetBootcampApi.Extensions.Attributes;
 
 namespace PaparaDotnetBootcampApi.Controllers
 {
@@ -65,7 +66,8 @@ namespace PaparaDotnetBootcampApi.Controllers
         /// <param name="createCustomerDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<ApiResponse<Customer>> Create([FromBody] CreateCustomerDto createCustomerDto)
+        [CustomAuth]
+        public ActionResult<ApiResponse<Customer>> Create([FromHeader] string username, [FromHeader] string password,[FromBody] CreateCustomerDto createCustomerDto)
         {
             if (!ModelState.IsValid)
             {
@@ -90,7 +92,8 @@ namespace PaparaDotnetBootcampApi.Controllers
         /// <param name="updateCustomerDto"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public ActionResult<ApiResponse<Customer>> Update(int id, [FromBody] UpdateCustomerDto updateCustomerDto)
+        [CustomAuth]
+        public ActionResult<ApiResponse<Customer>> Update([FromHeader] string username, [FromHeader] string password, int id, [FromBody] UpdateCustomerDto updateCustomerDto)
         {
             if (id != updateCustomerDto.Id)
             {
@@ -119,7 +122,8 @@ namespace PaparaDotnetBootcampApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public ActionResult<ApiResponse<object>> Delete(int id)
+        [CustomAuth]
+        public ActionResult<ApiResponse<object>> Delete([FromHeader] string username, [FromHeader] string password, int id)
         {
             var response = _customerService.DeleteCustomer(id);
 
@@ -158,7 +162,8 @@ namespace PaparaDotnetBootcampApi.Controllers
         /// <param name="patch"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public ActionResult<ApiResponse<Customer>> Patch(int id, [FromBody] JsonPatchDocument<Customer> patch)
+        [CustomAuth]
+        public ActionResult<ApiResponse<Customer>> Patch([FromHeader] string username, [FromHeader] string password, int id, [FromBody] JsonPatchDocument<Customer> patch)
         {
             var existingCustomer = _customerService.GetCustomerById(id);
 

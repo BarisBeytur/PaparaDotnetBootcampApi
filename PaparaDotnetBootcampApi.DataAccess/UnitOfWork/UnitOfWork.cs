@@ -1,6 +1,8 @@
 ﻿using PaparaDotnetBootcampApi.DataAccess.Context;
 using PaparaDotnetBootcampApi.DataAccess.Repositories.GenericRepository;
+using PaparaDotnetBootcampApi.DataAccess.Repositories.UserRepository;
 using PaparaDotnetBootcampApi.Entities;
+using PaparaDotnetBootcampApi.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,7 @@ namespace PaparaDotnetBootcampApi.DataAccess.UnitOfWork
         private readonly PatikaCohortContext _context;
         private IGenericRepository<Customer> CustomerRepository;
         private IGenericRepository<Card> CardRepository;
+        private IUserRepository UserRepository;
 
         public UnitOfWork(PatikaCohortContext context)
         {
@@ -29,6 +32,7 @@ namespace PaparaDotnetBootcampApi.DataAccess.UnitOfWork
         /// </summary>
         public IGenericRepository<Customer> Customers => CustomerRepository ??= new GenericRepository<Customer>(_context);
         public IGenericRepository<Card> Cards => CardRepository ??= new GenericRepository<Card>(_context);
+        public IUserRepository Users => UserRepository ??= new UserRepository(_context);
 
         /// <summary>
         /// veritabanındaki değişiklikleri kaydeder.
