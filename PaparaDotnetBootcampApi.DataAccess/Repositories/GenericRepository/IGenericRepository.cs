@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace PaparaDotnetBootcampApi.DataAccess.Repositories.GenericRepository
 {
+    /// <summary>
+    /// bu interface, tüm entityler için CRUD işlemlerini yapabilmek için oluşturulmuştur.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IGenericRepository<T> where T : class
     {
         public IEnumerable<T> GetAll();

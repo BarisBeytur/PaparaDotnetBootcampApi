@@ -4,6 +4,9 @@ using PaparaDotnetBootcampApi.Entities;
 
 namespace PaparaDotnetBootcampApi.DataAccess.Context
 {
+    /// <summary>
+    /// Bu sınıf veritabanı işlemlerini yapmak için kullanılır.
+    /// </summary>
     public class PatikaCohortContext : DbContext
     {
 
@@ -14,6 +17,7 @@ namespace PaparaDotnetBootcampApi.DataAccess.Context
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Card> Cards { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

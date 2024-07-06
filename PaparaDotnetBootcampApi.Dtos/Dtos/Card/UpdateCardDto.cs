@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace PaparaDotnetBootcampApi.Dtos.Card
 {
+    /// <summary>
+    /// bu sınıf, kart güncelleme işlemleri için kullanılır.
+    /// </summary>
     public class UpdateCardDto
     {
         [Required]

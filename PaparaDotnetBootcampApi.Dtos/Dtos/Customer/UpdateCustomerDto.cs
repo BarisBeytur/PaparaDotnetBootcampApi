@@ -2,6 +2,9 @@
 
 namespace PaparaDotnetBootcampApi.Dtos.Customer
 {
+    /// <summary>
+    /// bu sınıf, müşteri güncelleme işlemlerinde kullanılacak olan veri transfer nesnesidir.
+    /// </summary>
     public class UpdateCustomerDto
     {
         [Required]

@@ -4,6 +4,9 @@ using PaparaDotnetBootcampApi.Entities;
 
 namespace PaparaDotnetBootcampApi.Business.Services.Abstract
 {
+    /// <summary>
+    /// Kart işlemleri servisi
+    /// </summary>
     public interface ICardService
     {
         public ApiResponse<IEnumerable<Card>> GetAllCards();

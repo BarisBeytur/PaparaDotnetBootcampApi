@@ -2,6 +2,9 @@
 
 namespace PaparaDotnetBootcampApi.Dtos.Card
 {
+    /// <summary>
+    /// bu sınıf, kart oluşturmak için kullanılır.
+    /// </summary>
     public class CreateCardDto
     {
         [Required]

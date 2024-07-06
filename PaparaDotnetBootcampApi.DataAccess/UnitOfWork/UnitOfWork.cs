@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace PaparaDotnetBootcampApi.DataAccess.UnitOfWork
 {
+    /// <summary>
+    /// Bu sınıf, veritabanı işlemlerinin tek bir noktadan yönetilmesini sağlar.
+    /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
 
@@ -21,9 +24,16 @@ namespace PaparaDotnetBootcampApi.DataAccess.UnitOfWork
             _context = context;
         }
 
+        /// <summary>
+        /// Customer ve Card tabloları için GenericRepository sınıflarını döndürür.
+        /// </summary>
         public IGenericRepository<Customer> Customers => CustomerRepository ??= new GenericRepository<Customer>(_context);
         public IGenericRepository<Card> Cards => CardRepository ??= new GenericRepository<Card>(_context);
 
+        /// <summary>
+        /// veritabanındaki değişiklikleri kaydeder.
+        /// </summary>
+        /// <returns></returns>
         public int Complete()
         {
             using (var transaction = _context.Database.BeginTransaction())
@@ -45,6 +55,9 @@ namespace PaparaDotnetBootcampApi.DataAccess.UnitOfWork
 
         }
 
+        /// <summary>
+        /// veritabanı bağlantısını kapatır.
+        /// </summary>
         public void Dispose()
         {
             _context.Dispose();

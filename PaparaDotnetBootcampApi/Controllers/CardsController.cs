@@ -84,7 +84,7 @@ namespace PaparaDotnetBootcampApi.Controllers
 
 
         /// <summary>
-        /// Kartı günceller.
+        /// Kart bilgilerini günceller.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="updateCardDto"></param>
@@ -114,7 +114,7 @@ namespace PaparaDotnetBootcampApi.Controllers
 
 
         /// <summary>
-        /// Kart siler.
+        /// Kartı siler.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

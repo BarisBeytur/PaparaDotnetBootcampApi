@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PaparaDotnetBootcampApi.Entities
 {
+    /// <summary>
+    /// Bu sınıf müşteri bilgilerini tutar
+    /// </summary>
     public class Customer : BaseEntity
     {
         public int Id { get; set; }

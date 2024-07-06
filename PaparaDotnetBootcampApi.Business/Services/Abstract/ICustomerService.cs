@@ -4,6 +4,9 @@ using PaparaDotnetBootcampApi.Entities;
 
 namespace PaparaDotnetBootcampApi.Business.Services.Abstract
 {
+    /// <summary>
+    /// Müşteri işlemleri servisi
+    /// </summary>
     public interface ICustomerService
     {
         public ApiResponse<IEnumerable<Customer>> GetAllCustomers();

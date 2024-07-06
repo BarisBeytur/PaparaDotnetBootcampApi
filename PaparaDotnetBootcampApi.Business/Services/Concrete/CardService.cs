@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace PaparaDotnetBootcampApi.Business.Services.Concrete
 {
+    /// <summary>
+    /// Kart işlemleri servisi
+    /// </summary>
     public class CardService : ICardService
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -22,12 +25,23 @@ namespace PaparaDotnetBootcampApi.Business.Services.Concrete
             _unitOfWork = unitOfWork;
         }
 
+
+        /// <summary>
+        /// Tüm kartları listeler.
+        /// </summary>
+        /// <returns></returns>
         public ApiResponse<IEnumerable<Card>> GetAllCards()
         {
             var cards = _unitOfWork.Cards.GetAll();
             return ApiResponse<IEnumerable<Card>>.Success(cards, StatusCodes.Status200OK, "Cards listed successfully");
         }
 
+
+        /// <summary>
+        /// Kart oluşturur.
+        /// </summary>
+        /// <param name="createCardDto"></param>
+        /// <returns></returns>
         public ApiResponse<Card> AddCard(CreateCardDto createCardDto)
         {
             var customer = _unitOfWork.Customers.GetById(createCardDto.CustomerId);
@@ -53,6 +67,12 @@ namespace PaparaDotnetBootcampApi.Business.Services.Concrete
         }
 
 
+        /// <summary>
+        /// Kartı günceller.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updateCardDto"></param>
+        /// <returns></returns>
         public ApiResponse<Card> UpdateCard(UpdateCardDto updateCardDto)
         {
 
@@ -76,6 +96,11 @@ namespace PaparaDotnetBootcampApi.Business.Services.Concrete
         }
 
 
+        /// <summary>
+        /// Kart siler.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ApiResponse<Card> DeleteCard(int id)
         {
 
@@ -92,6 +117,12 @@ namespace PaparaDotnetBootcampApi.Business.Services.Concrete
             return ApiResponse<Card>.Success(StatusCodes.Status204NoContent, "Card deleted successfully");
         }
 
+
+        /// <summary>
+        /// ID değeri verilen kartı getirir.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ApiResponse<Card> GetCardById(int id)
         {
             var card = _unitOfWork.Cards.GetById(id);
@@ -104,6 +135,11 @@ namespace PaparaDotnetBootcampApi.Business.Services.Concrete
             return ApiResponse<Card>.Success(card, StatusCodes.Status200OK, "Card retrieved successfully");
         }
 
+        /// <summary>
+        /// Kart sahibinin ad soyadına göre listeleme ve kart numarasına göre sıralama yapar.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public ApiResponse<IEnumerable<Card>> ListCardsByName(string nameSurname)
         {
             List<Card> cards;

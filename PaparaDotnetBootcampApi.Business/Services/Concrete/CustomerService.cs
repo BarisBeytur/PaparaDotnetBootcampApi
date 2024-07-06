@@ -8,6 +8,9 @@ using PaparaDotnetBootcampApi.Entities;
 
 namespace PaparaDotnetBootcampApi.Business.Services.Concrete
 {
+    /// <summary>
+    /// Müşteri işlemleri servisi
+    /// </summary>
     public class CustomerService : ICustomerService
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -17,12 +20,23 @@ namespace PaparaDotnetBootcampApi.Business.Services.Concrete
             _unitOfWork = unitOfWork;
         }
 
+
+        /// <summary>
+        /// Tüm müşterileri listeler.
+        /// </summary>
+        /// <returns></returns>
         public ApiResponse<IEnumerable<Customer>> GetAllCustomers()
         {
             var customers = _unitOfWork.Customers.GetAll();
             return ApiResponse<IEnumerable<Customer>>.Success(customers, StatusCodes.Status200OK, "Customers listed successfully");
         }
 
+
+        /// <summary>
+        /// Müşteri oluşturur.
+        /// </summary>
+        /// <param name="createCustomerDto"></param>
+        /// <returns></returns>
         public ApiResponse<Customer> AddCustomer(CreateCustomerDto createCustomerDto)
         {
             Customer customer = new Customer
@@ -39,6 +53,12 @@ namespace PaparaDotnetBootcampApi.Business.Services.Concrete
         }
 
 
+        /// <summary>
+        /// Müşteri bilgilerini günceller.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updateCustomerDto"></param>
+        /// <returns></returns>
         public ApiResponse<Customer> UpdateCustomer(UpdateCustomerDto updateCustomerDto)
         {
 
@@ -60,6 +80,11 @@ namespace PaparaDotnetBootcampApi.Business.Services.Concrete
         }
 
 
+        /// <summary>
+        /// Müşteriyi siler.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ApiResponse<Customer> DeleteCustomer(int id)
         {
 
@@ -76,6 +101,12 @@ namespace PaparaDotnetBootcampApi.Business.Services.Concrete
             return ApiResponse<Customer>.Success(StatusCodes.Status204NoContent, "Customer deleted successfully");
         }
 
+
+        /// <summary>
+        /// Id değerine göre müşteri bilgilerini getirir.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ApiResponse<Customer> GetCustomerById(int id)
         {
             var customer = _unitOfWork.Customers.GetById(id);
@@ -88,6 +119,12 @@ namespace PaparaDotnetBootcampApi.Business.Services.Concrete
             return ApiResponse<Customer>.Success(customer, StatusCodes.Status200OK, "Customer retrieved successfully");
         }
 
+
+        /// <summary>
+        /// Müşterileri adına göre listeler ve TCKN'ye göre sıralar.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public ApiResponse<IEnumerable<Customer>> ListCustomersByName(string name)
         {
             List<Customer> customers;

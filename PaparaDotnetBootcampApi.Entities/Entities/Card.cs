@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace PaparaDotnetBootcampApi.Entities
 {
+    /// <summary>
+    /// Bu sınıf kart bilgilerini tutar.
+    /// </summary>
     public class Card : BaseEntity
     {
         public string CardNumber { get; set; }
