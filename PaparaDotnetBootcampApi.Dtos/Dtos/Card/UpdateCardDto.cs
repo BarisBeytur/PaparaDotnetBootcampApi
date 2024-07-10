@@ -8,18 +8,12 @@ namespace PaparaDotnetBootcampApi.Dtos.Card
     /// </summary>
     public class UpdateCardDto
     {
-        [Required]
         public int Id { get; set; }
-        [Required]
         public string CardNumber { get; set; }
-        [Required]
         public string NameSurname { get; set; }
-        [Required]
         public string ExpiryDate { get; set; }
-        [Required]
         public string Cvv { get; set; }
 
-        [Required]
         public int CustomerId { get; set; }
 
     }
